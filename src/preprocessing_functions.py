@@ -437,5 +437,3 @@ def process_angle(test_case_name,shape,reflect_y=False,reflect_z=False):
         two_angles=df_dropped 
    
     return    two_angles 
-
-    
