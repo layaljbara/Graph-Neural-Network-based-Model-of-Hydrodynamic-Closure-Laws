@@ -69,7 +69,7 @@ def get_optimizer(model, lr=1e-3, weight_decay=1e-5):
     """
     return torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
-def create_data(df, df2, N, RE, device='cpu'):
+def create_data(df, df2, N, RE, force='Cd0', device='cpu'):
     """
     Constructs a graph representation from particle data, incorporating edge features and target forces.
     
@@ -115,8 +115,11 @@ def create_data(df, df2, N, RE, device='cpu'):
     edge_attr = torch.tensor(edge_attr, dtype=torch.float64)  # Shape: [num_edges, 3]
     
     # Normalize forces using the Reynolds number factor
-    forces = torch.tensor((df[['Cd0']].values - df['Cd0'].mean()) * RE, dtype=torch.float64).to(device)
-    
+    if force=='Cd0':
+        forces = torch.tensor((df[[force]].values - df[force].mean()) * RE, dtype=torch.float64).to(device)
+    else:
+        forces = torch.tensor((df[[force]].values * RE), dtype=torch.float64).to(device)
+        
     # Extract and store rotation angles as node features
     rotation_angles = torch.tensor(df2[['phi', 'psi']].values, dtype=torch.float64).to(device)
     
