@@ -3,9 +3,9 @@ Graph Neural Networks for Modeling Hydrodynamic Closure Laws in Non-Spherical Pa
 University of British Columbia, March 2025
 Author: Layal Jbara
 
-This script, Train_Fx.py, includes functions that:
+This script, Train_Fy.py, includes functions that:
 - Convert data into a graph structure.
-- Design and train Graph Neural Networks (GNNs).
+- Design and train Graph Neural Networks (GNNs) for a regression-based task to predict the hydrodynamic lift forces.
 """
 
 #####################################################################################################
@@ -417,7 +417,7 @@ if __name__ == "__main__":
         torch_geometric.data.Data: Processed dataset ready for training.
         """
         # Create and preprocess dataset
-        data = trf.create_data(df, df2, N=args.N_neigh, RE=args.RE).to(device)
+        data = trf.create_data(df, df2, N=args.N_neigh, RE=args.RE, force='Cd0').to(device)
         data = trf.create_masks(data, train_ratio=0.80, seed=7264).to(device)
         return data
 
